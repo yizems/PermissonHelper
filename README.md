@@ -86,7 +86,7 @@ allprojects {
 		}
 	}
     
-   allprojects {
+   module {
 		dependencies {
 	      	  compile 'com.github.yizeliang:PermissonHelper:1.0'
 		}
