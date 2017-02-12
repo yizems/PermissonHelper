@@ -1,15 +1,16 @@
-# PermissonHelper
-一个针对6.0权限动态申请的库
-# PermissionHelper封装
+package cn.yzl.demo;
 
+import android.Manifest;
+import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.Toast;
 
+import cn.yzl.permissionhelper.anotation.PermssionAgree;
+import cn.yzl.permissionhelper.anotation.PermssionRefuse;
+import cn.yzl.permissionhelper.library.PermissionHelper;
 
-## 1 使用方法
-
-- 使用过于简单,就不写详细的注释了
-- fragment 中使用方法一样
-
-```java
 
 public class MainActivity extends AppCompatActivity {
 
@@ -67,30 +68,4 @@ public class MainActivity extends AppCompatActivity {
         Toast.makeText(this, "权限拒绝", Toast.LENGTH_SHORT).show();
     }
 
-```
-
-
-## 2 更新历史
-
-### 1.0
-- 创建项目,实现基本功能
-
-
-## 3 依赖添加
-
-```gradle
-allprojects {
-		repositories {
-			...
-			maven { url 'https://jitpack.io' }
-		}
-	}
-    
-   allprojects {
-		dependencies {
-	      	  compile 'com.github.yizeliang:PermissonHelper:1.0'
-		}
-	}
-
-```
-
+}
