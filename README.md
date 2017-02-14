@@ -6,41 +6,26 @@
 
 ## 1 使用方法
 
-- 使用过于简单,就不写详细的注释了
-- fragment 中使用方法一样
+- 申请权限的方法,如果权限已经被允许,会直接走成功的回调
 
-```java
-
-public class MainActivity extends AppCompatActivity {
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-        findViewById(R.id.but1).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+````java
                 PermissionHelper.init(MainActivity.this)
                         .request(1, Manifest.permission.CALL_PHONE)
                         .excute();
-            }
-        });
 
-        findViewById(R.id.but2).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
                 PermissionHelper.init(MainActivity.this)
                         .request(2, Manifest.permission.CALL_PHONE, Manifest.permission.READ_EXTERNAL_STORAGE,
                                 Manifest.permission.WRITE_EXTERNAL_STORAGE)
                         .excute();
-            }
-        });
-    }
+````
+
+
+
+- 申请结果的接收
+````java
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-
         PermissionHelper.onRequestPermissionsResult(this, requestCode, permissions, grantResults);
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
@@ -67,10 +52,21 @@ public class MainActivity extends AppCompatActivity {
         Toast.makeText(this, "权限拒绝", Toast.LENGTH_SHORT).show();
     }
 
-```
+````
 
+- 打开本APP权限管理页面
+
+````java
+
+PermissionHelper.showPermissionEditAct(MainActivity.this);
+
+````
 
 ## 2 更新历史
+
+
+### 1.1
+- 添加打开权限管理页面的方法,效果并不好
 
 ### 1.0
 - 创建项目,实现基本功能
@@ -88,7 +84,7 @@ allprojects {
     
    module {
 		dependencies {
-	      	  compile 'com.github.yizeliang:PermissonHelper:1.0'
+	      	  compile 'com.github.yizeliang:PermissonHelper:1.1'
 		}
 	}
 

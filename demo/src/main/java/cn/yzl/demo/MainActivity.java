@@ -1,7 +1,10 @@
 package cn.yzl.demo;
 
 import android.Manifest;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -35,6 +38,15 @@ public class MainActivity extends AppCompatActivity {
                         .request(2, Manifest.permission.CALL_PHONE, Manifest.permission.READ_EXTERNAL_STORAGE,
                                 Manifest.permission.WRITE_EXTERNAL_STORAGE)
                         .excute();
+            }
+        });
+
+        findViewById(R.id.but3).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PermissionHelper.showPermissionEditAct(MainActivity.this);
+
+
             }
         });
     }

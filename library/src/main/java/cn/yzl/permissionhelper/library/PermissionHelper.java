@@ -1,11 +1,16 @@
 package cn.yzl.permissionhelper.library;
 
 import android.app.Activity;
+import android.content.ComponentName;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Build;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+
+import cn.yzl.permissionhelper.BuildConfig;
 
 
 /**
@@ -160,4 +165,15 @@ public class PermissionHelper {
         }
         return false;
     }
+
+
+    /**
+     * 打开权限管理页面
+     *
+     * @param activity
+     */
+    public static void showPermissionEditAct(Activity activity) {
+        PermissionUtil.startPermissionEditAct(activity);
+    }
+
 }

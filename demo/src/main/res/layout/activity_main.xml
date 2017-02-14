@@ -15,7 +15,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="20dp"
         android:text="申请一个权限" />
 
     <Button
@@ -24,8 +24,16 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/but1"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="20dp"
         android:text="申请多个权限" />
 
 
+    <Button
+        android:id="@+id/but3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/but2"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:text="查看应用详情" />
 </RelativeLayout>
