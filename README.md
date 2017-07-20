@@ -52,6 +52,20 @@
         Toast.makeText(this, "权限拒绝", Toast.LENGTH_SHORT).show();
     }
 
+     @PermissionNoAsk(1)
+     public void noask1() {
+        Toast.makeText(this, "权限不再询问", Toast.LENGTH_SHORT).show();
+     }
+
+     @PermissionNoAsk(2)
+     public void noask(List<String> diedPermissions) {
+        String p = "";
+        for (int i = 0; i < diedPermissions.size(); i++) {
+            p += diedPermissions.get(i);
+        }
+        Toast.makeText(this, p+"\n权限不再询问", Toast.LENGTH_SHORT).show();
+     }
+
 ````
 
 - 打开本APP权限管理页面
@@ -64,6 +78,9 @@ PermissionHelper.showPermissionEditAct(MainActivity.this);
 
 ## 2 更新历史
 
+
+### 1.2
+- 添加处理 不再询问的方法
 
 ### 1.1
 - 添加打开权限管理页面的方法,效果并不好
@@ -84,7 +101,7 @@ allprojects {
     
    module {
 		dependencies {
-	      	  compile 'com.github.yizeliang:PermissonHelper:1.1'
+	      	  compile 'com.github.yizeliang:PermissonHelper:1.2'
 		}
 	}
 

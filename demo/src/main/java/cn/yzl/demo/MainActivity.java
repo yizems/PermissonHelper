@@ -1,21 +1,22 @@
 package cn.yzl.demo;
 
 import android.Manifest;
-import android.content.Intent;
-import android.net.Uri;
+import android.app.Activity;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Toast;
 
-import cn.yzl.permissionhelper.anotation.PermssionAgree;
-import cn.yzl.permissionhelper.anotation.PermssionRefuse;
+import java.util.List;
+
+import cn.yzl.permissionhelper.anotation.PermissionAgree;
+import cn.yzl.permissionhelper.anotation.PermissionNoAsk;
+import cn.yzl.permissionhelper.anotation.PermissionRefuse;
 import cn.yzl.permissionhelper.library.PermissionHelper;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,23 +60,38 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    @PermssionAgree(1)
+    @PermissionAgree(1)
     public void agreePhonePermission() {
         Toast.makeText(this, "权限通过", Toast.LENGTH_SHORT).show();
     }
 
-    @PermssionRefuse(1)
+    @PermissionRefuse(1)
     public void refusePhonePermission() {
         Toast.makeText(this, "权限拒绝", Toast.LENGTH_SHORT).show();
     }
 
 
-    @PermssionAgree(2)
+    @PermissionNoAsk(1)
+    public void noask1() {
+        Toast.makeText(this, "权限不再询问", Toast.LENGTH_SHORT).show();
+    }
+
+    @PermissionNoAsk(2)
+    public void noask(List<String> diedPermissions) {
+        String p = "";
+        for (int i = 0; i < diedPermissions.size(); i++) {
+            p += diedPermissions.get(i);
+        }
+        Toast.makeText(this, p+"\n权限不再询问", Toast.LENGTH_SHORT).show();
+    }
+
+
+    @PermissionAgree(2)
     public void agreeMulPermission() {
         Toast.makeText(this, "权限通过", Toast.LENGTH_SHORT).show();
     }
 
-    @PermssionRefuse(2)
+    @PermissionRefuse(2)
     public void refuseMulPermission() {
         Toast.makeText(this, "权限拒绝", Toast.LENGTH_SHORT).show();
     }

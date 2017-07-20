@@ -9,6 +9,10 @@ import android.os.Build;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatActivity;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import cn.yzl.permissionhelper.BuildConfig;
 
@@ -58,7 +62,8 @@ public class PermissionHelper {
         } else {
             boolean flag = true;
             for (String permission : permissions) {
-                if (ContextCompat.checkSelfPermission(getActivity(),
+                //已经允许的权限
+                if (ContextCompat.checkSelfPermission(getActivity(obj),
                         permission)
                         != PackageManager.PERMISSION_GRANTED) {
                     flag = false;
@@ -96,15 +101,15 @@ public class PermissionHelper {
      *
      * @return
      */
-    private Activity getActivity() {
-        if (obj instanceof Activity) {
-            return (Activity) obj;
+    private static Activity getActivity(Object target) {
+        if (target instanceof Activity) {
+            return (Activity) target;
         }
-        if (obj instanceof Fragment) {
-            return ((Fragment) obj).getActivity();
+        if (target instanceof Fragment) {
+            return ((Fragment) target).getActivity();
         }
-        if (obj instanceof android.app.Fragment) {
-            return ((android.app.Fragment) obj).getActivity();
+        if (target instanceof android.app.Fragment) {
+            return ((android.app.Fragment) target).getActivity();
         }
         return null;
     }
@@ -137,12 +142,20 @@ public class PermissionHelper {
         }
 
         boolean flag = true;
-
-        for (int temp : grantResults) {
-            if (temp != PackageManager.PERMISSION_GRANTED) {
+        List<String> noAsk = new ArrayList<>();
+        for (int i = 0; i < grantResults.length; i++) {
+            if (grantResults[i] != PackageManager.PERMISSION_GRANTED) {
+                if (!ActivityCompat.shouldShowRequestPermissionRationale(getActivity(obj), permissions[i])) {
+                    //不再询问的权限添加到本列表
+                    noAsk.add(permissions[i]);
+                }
                 flag = false;
-                break;
             }
+        }
+
+        if(noAsk.size()>0){
+            PermissionUtil.invokeNoAsk(obj, requestCode,noAsk);
+            return;
         }
 
         if (flag) {
@@ -151,6 +164,7 @@ public class PermissionHelper {
             PermissionUtil.invokeRefuse(obj, requestCode);
         }
     }
+
 
     /**
      * 检查 目标类是否是一个Activity或者一个fragment

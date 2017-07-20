@@ -8,10 +8,12 @@ import android.os.Build;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.List;
 
 import cn.yzl.permissionhelper.BuildConfig;
-import cn.yzl.permissionhelper.anotation.PermssionAgree;
-import cn.yzl.permissionhelper.anotation.PermssionRefuse;
+import cn.yzl.permissionhelper.anotation.PermissionAgree;
+import cn.yzl.permissionhelper.anotation.PermissionNoAsk;
+import cn.yzl.permissionhelper.anotation.PermissionRefuse;
 
 /**
  * Created by YZL on 2017/2/12.
@@ -20,6 +22,7 @@ import cn.yzl.permissionhelper.anotation.PermssionRefuse;
 class PermissionUtil {
     /**
      * 执行 允许的方法
+     *
      * @param object
      * @param requestCode
      */
@@ -27,8 +30,8 @@ class PermissionUtil {
         Method[] declaredMethods = object.getClass().getDeclaredMethods();
 
         for (Method method : declaredMethods) {
-            if (method.isAnnotationPresent(PermssionAgree.class)) {
-                int code = method.getAnnotation(PermssionAgree.class).value();
+            if (method.isAnnotationPresent(PermissionAgree.class)) {
+                int code = method.getAnnotation(PermissionAgree.class).value();
                 if (code == requestCode) {
                     try {
                         if (!method.isAccessible()) {
@@ -48,20 +51,54 @@ class PermissionUtil {
 
     /**
      * 执行 拒绝的方法
+     *
      * @param object
      * @param requestCode
      */
     static void invokeRefuse(Object object, int requestCode) {
         Method[] declaredMethods = object.getClass().getDeclaredMethods();
         for (Method method : declaredMethods) {
-            if (method.isAnnotationPresent(PermssionRefuse.class)) {
-                int code = method.getAnnotation(PermssionRefuse.class).value();
+            if (method.isAnnotationPresent(PermissionRefuse.class)) {
+                int code = method.getAnnotation(PermissionRefuse.class).value();
                 if (code == requestCode) {
                     try {
                         if (!method.isAccessible()) {
                             method.setAccessible(true);
                         }
                         method.invoke(object, new Object[]{});
+                        return;
+                    } catch (IllegalAccessException e) {
+                        e.printStackTrace();
+                    } catch (InvocationTargetException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * 执行 不再询问的方法
+     *
+     * @param obj
+     * @param requestCode
+     * @param noAsk       不再询问的权限列表
+     */
+    public static void invokeNoAsk(Object obj, int requestCode, List<String> noAsk) {
+        Method[] declaredMethods = obj.getClass().getDeclaredMethods();
+        for (Method method : declaredMethods) {
+            if (method.isAnnotationPresent(PermissionNoAsk.class)) {
+                int code = method.getAnnotation(PermissionNoAsk.class).value();
+                if (code == requestCode) {
+                    try {
+                        if (!method.isAccessible()) {
+                            method.setAccessible(true);
+                        }
+                        if (method.getParameterTypes().length > 0) {
+                            method.invoke(obj, new Object[]{noAsk});
+                        } else {
+                            method.invoke(obj, new Object[]{});
+                        }
                         return;
                     } catch (IllegalAccessException e) {
                         e.printStackTrace();
